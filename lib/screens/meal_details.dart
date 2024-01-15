@@ -36,26 +36,44 @@ class MealDetailsScreen extends ConsumerWidget {
                 ),
               );
             },
-            icon: Icon(isMealFavorite?Icons.star:Icons.star_border),
+            icon: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              transitionBuilder: (child, animation) {
+                return RotationTransition(
+                  turns: Tween<double>(
+                    begin: 0.8,
+                    end: 1,
+                  ).animate(animation),
+                  child: child,
+                );
+              },
+              child: Icon(
+                isMealFavorite ? Icons.star : Icons.star_border,
+                key: ValueKey(isMealFavorite),
+              ),
+            ),
           ),
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Card(
-              margin: const EdgeInsets.all(15),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              clipBehavior: Clip.hardEdge,
-              elevation: 2,
-              child: FadeInImage(
-                placeholder: MemoryImage(kTransparentImage),
-                image: NetworkImage(meal.imageUrl),
-                fit: BoxFit.cover,
-                height: 200,
-                width: double.infinity,
+            Hero(
+              tag: meal.id,
+              child: Card(
+                margin: const EdgeInsets.all(15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                clipBehavior: Clip.hardEdge,
+                elevation: 2,
+                child: FadeInImage(
+                  placeholder: MemoryImage(kTransparentImage),
+                  image: NetworkImage(meal.imageUrl),
+                  fit: BoxFit.cover,
+                  height: 200,
+                  width: double.infinity,
+                ),
               ),
             ),
             const SizedBox(
